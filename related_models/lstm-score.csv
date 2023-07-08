@@ -1,0 +1,4 @@
+model,score
+lstm-survival-ids,0.9926625023867325
+lstm-car-hacking,1
+lstm-syncan,0.41049440857637043

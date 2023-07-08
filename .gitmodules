@@ -1,0 +1,3 @@
+[submodule "data/SynCAN"]
+	path = data/SynCAN
+	url = https://github.com/etas/SynCAN

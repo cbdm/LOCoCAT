@@ -1,0 +1,9 @@
+brotlipy==0.7.0
+dill==0.3.6
+pip-chill==1.0.1
+pooch==1.7.0
+pyopenssl==23.0.0
+pysocks==1.7.1
+scikit-learn==1.2.2
+seaborn==0.12.2
+typing-extensions==4.5.0
