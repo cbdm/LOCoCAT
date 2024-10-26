@@ -2,6 +2,7 @@ from os.path import pardir, join, exists, isdir
 import pandas as pd
 import numpy as np
 import zipfile
+import os
 from os import remove, listdir
 from itertools import product
 
@@ -250,8 +251,152 @@ def prepare_survival_ids():
     result_df = result_df.reset_index(drop=True)
     result_df.to_csv(f"{result_filepath}-all.csv", index_label="Index")
 
+def parse_canlog(filename, label=None):
+
+    # reads in a file and the corresponding type of attack
+    # makes columns for time, attack id, and the attack data
+    data = pd.read_csv(
+        filename,
+        header=None,
+        names = [
+            "Time",
+            "Network",
+            "ID",
+            "Message Data",
+            "Extra"
+        ],
+        sep = "[ |#]",
+        engine = "python",
+        usecols = ["Time", "ID", "Message Data"],
+        dtype = {"Message Data" : str, "ID": str},
+        nrows = 1
+    )
+
+    # makes a label column to specify the type of attack``
+    if label is not None:
+        data["Label"] = label
+
+    # turns the attack data column into eight separate columns (one for each signal)
+    # converts the hexademical to decimal values
+    for i in range(8):
+        data[f"DATA{i}"] = data["Message Data"].str.slice(i*2, (i*2)+2).apply(hex_to_int)
+    data = data.drop(columns=["Message Data"])
+
+    # strips the parenthases away from the time label
+    data["Time"] = data["Time"].apply(lambda x: x[1:-1]).astype(np.float64)
+
+    return data
+
+def hex_to_int(hex_string):
+    try:
+        return int(hex_string, 16)
+    except (ValueError, TypeError):
+        return 0
+
+def prepare_canlog():
+    url =  "https://bitbucket.org/brooke-lampe/can-log/src/master/"
+    canlog_dataset = join(pardir, "data", "can-log")
+    assert exists(
+        canlog_dataset
+    ), f"can-log dataset doesn't exist. Make sure you have downloaded it from: {url}"
+
+    result_filepath = join(pardir, "data", "can-log.csv")
+    assert not exists(result_filepath), f"{result_filepath} already exists."
+
+    attack_types = [
+        "DoS-attacks", # label==0
+        "fuzzing-attacks", # label==1
+        "gear-attacks", # label==2
+        "interval-attacks", # label==3
+        "rpm-attacks", # label==4
+        "speed-attacks", # label==5
+        "standstill-attacks", # label==6
+        "systematic-attacks", # label==7
+    ]
+
+    datasets = [
+        "2011-chevrolet-impala",
+        "2011-chevrolet-traverse",
+        "2016-chevrolet-silverado", 
+        "2017-subaru-forester"
+    ]
+
+    for ds in datasets:
+        for at in attack_types:
+            assert exists(
+                join(pardir, "data", "can-log", ds, at)
+            ), f"Missing data for '{at}' attacks for {ds}."
+
+    result_df = None
+    for label, at in enumerate(attack_types):
+        for ds in datasets:
+            dir = fr"{pardir}/data/can-log/{ds}/{at}"
+            for file in os.listdir(dir):
+                print(fr"Processing {dir + "/" + file}; assigning label {label}...")
+                new_df = parse_canlog(fr"{dir}/{file}", label)
+                    
+                if result_df is None:
+                    result_df = new_df
+                else:
+                    result_df = pd.concat([result_df, new_df])
+
+    result_df = result_df.reset_index(drop=True)
+    result_df.to_csv(result_filepath, index_label="Index")
+
+def prepare_can_mirgu():
+    url = "https://github.com/sampathrajapaksha/CAN-MIRGU"
+    can_mirgu_dataset = join(pardir, "data", "CAN-MIRGU/Sample dataset/Attack")
+    assert exists(
+        can_mirgu_dataset
+    ), f"CAN-MIRGU dataset doesn't exist. Make sure you have downloaded it from {url}"
+
+    result_filepath = join(pardir, "data", "can-mirgu.csv")
+    assert not exists(result_filepath), f"{result_filepath} already exists"
+
+    attack_types = [
+        "Masquerade_attacks", # label==0
+        "Suspension_attacks", # label==1
+        "Real_attacks", # label==2
+    ]
+
+    for at in attack_types:
+        assert exists(
+            can_mirgu_dataset + f"/{at}"
+        ), f"Missing data for '{at}' attacks."
+
+    result_df = None
+    for label, at in enumerate(attack_types):
+        for file in os.listdir(can_mirgu_dataset + f"/{at}"):
+            path = can_mirgu_dataset + "/" + at + "/" + file
+            if file.endswith(".log"):
+                print(fr"Processing {path}; assigning label {label}...")
+                new_df = parse_canlog(path, label)
+
+                if result_df is None:
+                    result_df = new_df
+                else:
+                    result_df = pd.concat([result_df, new_df])
+            elif file.endswith(".zip"):
+                new_path = can_mirgu_dataset + "/" + at + "/extracted_files"
+                print(fr"Extracting files into {new_path}...")
+                with zipfile.ZipFile(path, "r") as zip:
+                    zip.extractall(new_path)
+                for extracted in os.listdir(new_path):
+                    if extracted.endswith(".log"):
+                        print(fr"Processing {new_path + "/" + extracted}; assigning label {label}...")
+                        new_df = parse_canlog(new_path + "/" + extracted, label)
+
+                        if result_df is None:
+                            result_df = new_df
+                        else:
+                            result_df = pd.concat([result_df, new_df])
+    
+    result_df = result_df.reset_index(drop=True)
+    result_df.to_csv(result_filepath, index_label="Index")
 
 if __name__ == "__main__":
     prepare_syncan()
     prepare_car_hacking()
     prepare_survival_ids()
+    prepare_canlog()
+    prepare_can_mirgu()

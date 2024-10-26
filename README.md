@@ -7,7 +7,7 @@ Some of these scripts can be helpful if you intend to expand or branch off from 
 ## Getting started
 
 First thing you need to do is to clone this repo.
-Keep in mind that one of the datasets we use ([SynCAN](https://github.com/etas/SynCAN)) is added here as a submodule, so you need to clone this repo with an extra flag:
+Keep in mind that two of the datasets we use ([SynCAN](https://github.com/etas/SynCAN) and [CAN-MIRGU](https://github.com/sampathrajapaksha/CAN-MIRGU)) are added here as a submodule, so you need to clone this repo with an extra flag:
 ```
 git clone --recurse-submodules https://github.com/cbdm/LOCoCAT.git
 ```
@@ -41,21 +41,28 @@ We use 3 datasets for the experiments:
 1. SynCAN (https://github.com/etas/SynCAN)
 2. Car-Hacking (https://ocslab.hksecurity.net/Datasets/car-hacking-dataset)
 3. Survival-IDS (https://ocslab.hksecurity.net/Datasets/survival-ids)
+4. can-log (https://bitbucket.org/brooke-lampe/can-log/src/master/)
+5. CAN-MIRGU (https://github.com/sampathrajapaksha/CAN-MIRGU.git)
 
-(1) is included as a submodule inside the `data` subdir.
+(1) and (5) are included as submodules inside the `data` subdir.
 (2) and (3) need to be downloaded directly on their websites.
+(4) must be cloned from the Bitbucket repository
 After downloading everything, you should have inside `data`:
 
 - `SynCAN` directory;
 - `9) Car-Hacking Dataset.zip` file;
 - `20) Survival Analysis Dataset for automobile IDS.zip` file.
+- `can-log` directory;
+- `CAN_MIRGU` directory;
 
 Once you have all datasets downloaded and all dependencies installed, you can run the `prepare_data.py` script to extract the attack data from the test sets.
-This should generate 3 files inside the `data` subdir:
+This should generate 5 files inside the `data` subdir:
 
 1. `syncan_attack_only.csv` 
 2. `car-hacking_attacks.csv`
 3. `survival-ids_attacks-all.csv`
+4. `can-log.csv`
+5. `can-mirgu.csv`
 
 (1) has all the anomalous data from SynCAN, and each attack type is labeled:
 
@@ -77,6 +84,23 @@ This should generate 3 files inside the `data` subdir:
 0. flooding
 1. fuzzy
 2. malfunction
+
+(4) has all the anomalous data from can-log, and each attack is labeled:
+
+0. DoS
+1. fuzzing
+2. gear
+3. interval
+4. rpm
+5. speed
+6. standstill
+7. systematic
+
+(5) has all the anomalous data from CAN-MIRGU, and each attack is labeled:
+
+0. masquerade
+1. suspension
+2. real (break warning)
 
 ### Training models
 
