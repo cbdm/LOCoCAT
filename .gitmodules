@@ -1,3 +1,6 @@
 [submodule "data/SynCAN"]
 	path = data/SynCAN
 	url = https://github.com/etas/SynCAN
+[submodule "data/CAN-MIRGU"]
+	path = data/CAN-MIRGU
+	url = https://github.com/sampathrajapaksha/CAN-MIRGU.git
