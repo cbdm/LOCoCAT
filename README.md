@@ -36,7 +36,7 @@ If some of the dependencies do not work directly with pip in your system, you ca
 
 ### Preparing the data
 
-We use 3 datasets for the experiments:
+We have 5 datasets for the experiments:
 
 1. SynCAN (https://github.com/etas/SynCAN)
 2. Car-Hacking (https://ocslab.hksecurity.net/Datasets/car-hacking-dataset)
