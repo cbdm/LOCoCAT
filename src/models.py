@@ -57,7 +57,7 @@ models["forest"] = GridSearchCV(
 )
 
 # AdaBoost
-# Params chosen from: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+# Params chosen from: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html
 models["adaboost"] = GridSearchCV(
     AdaBoostClassifier(),
     param_grid={
