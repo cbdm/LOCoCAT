@@ -269,7 +269,6 @@ def parse_canlog(filename, label=None):
         engine = "python",
         usecols = ["Time", "ID", "Message Data"],
         dtype = {"Message Data" : str, "ID": str},
-        nrows = 1
     )
 
     # makes a label column to specify the type of attack``
