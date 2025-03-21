@@ -7,7 +7,7 @@ Some of these scripts can be helpful if you intend to expand or branch off from 
 ## Getting started
 
 First thing you need to do is to clone this repo.
-Keep in mind that two of the datasets we use ([SynCAN](https://github.com/etas/SynCAN) and [CAN-MIRGU](https://github.com/sampathrajapaksha/CAN-MIRGU)) are added here as a submodule, so you need to clone this repo with an extra flag:
+Keep in mind that one of the datasets we use ([SynCAN](https://github.com/etas/SynCAN)) is added here as a submodule, so you need to clone this repo with an extra flag:
 ```
 git clone --recurse-submodules https://github.com/cbdm/LOCoCAT.git
 ```
@@ -18,9 +18,11 @@ git submodule update --init --recursive
 ```
 Alternatively, you can delete and clone it again.
 
-The other two datasets should be downloaded from:
+The other four datasets should be downloaded from:
 - https://ocslab.hksecurity.net/Datasets/car-hacking-dataset
 - https://ocslab.hksecurity.net/Datasets/survival-ids
+- https://bitbucket.org/brooke-lampe/can-log/src/master/
+- the google drive link in the [CAN-MIRGU repo](https://github.com/sampathrajapaksha/CAN-MIRGU)
 
 Lastly, all steps/scripts described below assume you're running them from inside the `src` directory.
 Nothing should break if you run them from a different directory, but the `out` folder might be created in some other root directory instead of this repo.
@@ -44,9 +46,11 @@ We have 5 datasets for the experiments:
 4. can-log (https://bitbucket.org/brooke-lampe/can-log/src/master/)
 5. CAN-MIRGU (https://github.com/sampathrajapaksha/CAN-MIRGU.git)
 
-(1) and (5) are included as submodules inside the `data` subdir.
-(2) and (3) need to be downloaded directly on their websites.
-(4) must be cloned from the Bitbucket repository
+(1) is included as submodules inside the `data` subdir;
+(2) and (3) need to be downloaded directly on their websites;
+(4) must be cloned from the Bitbucket repository;
+(5) must be downloaded from the google drive link in their github repository.
+
 After downloading everything, you should have inside `data`:
 
 - `SynCAN` directory;
@@ -103,6 +107,8 @@ This should generate 5 files inside the `data` subdir:
 2. real (break warning)
 
 ### Training models
+
+**This and following sections have not been updated to include the new data yet. They show how to train and evaluate models for the first three datasets only.**
 
 Once you have the prepared datasets, you can use the `train_models.py` script to do a grid search for the best parameters for classifier models.
 You can choose which dataset(s) to use for training using the parameters in the script.

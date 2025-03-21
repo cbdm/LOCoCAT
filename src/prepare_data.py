@@ -344,10 +344,10 @@ def prepare_canlog():
 
 def prepare_can_mirgu():
     url = "https://github.com/sampathrajapaksha/CAN-MIRGU"
-    can_mirgu_dataset = join(pardir, "data", "CAN-MIRGU/Sample dataset/Attack")
+    can_mirgu_dataset = join(pardir, "data", "CAN-MIRGU/Attack")
     assert exists(
         can_mirgu_dataset
-    ), f"CAN-MIRGU dataset doesn't exist. Make sure you have downloaded it from {url}"
+    ), f"CAN-MIRGU dataset doesn't exist. Make sure you have downloaded it from google drive using the link in {url}"
 
     result_filepath = join(pardir, "data", "can-mirgu.csv")
     assert not exists(result_filepath), f"{result_filepath} already exists"
