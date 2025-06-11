@@ -21,7 +21,8 @@ Alternatively, you can delete and clone it again.
 The other four datasets should be downloaded from:
 - https://ocslab.hksecurity.net/Datasets/car-hacking-dataset
 - https://ocslab.hksecurity.net/Datasets/survival-ids
-- https://bitbucket.org/brooke-lampe/can-log/src/master/
+- https://bitbucket.org/brooke-lampe/can-ml/
+    - Note that for the `can-ml` dataset, we only use the `post-attack-labeled` data, so you can delete the other subdirectories to save some storage
 - the google drive link in the [CAN-MIRGU repo](https://github.com/sampathrajapaksha/CAN-MIRGU)
 
 Lastly, all steps/scripts described below assume you're running them from inside the `src` directory.
@@ -43,7 +44,7 @@ We have 5 datasets for the experiments:
 1. SynCAN (https://github.com/etas/SynCAN)
 2. Car-Hacking (https://ocslab.hksecurity.net/Datasets/car-hacking-dataset)
 3. Survival-IDS (https://ocslab.hksecurity.net/Datasets/survival-ids)
-4. can-log (https://bitbucket.org/brooke-lampe/can-log/src/master/)
+4. can-ml (https://bitbucket.org/brooke-lampe/can-ml/)
 5. CAN-MIRGU (https://github.com/sampathrajapaksha/CAN-MIRGU.git)
 
 (1) is included as submodules inside the `data` subdir;
@@ -56,55 +57,57 @@ After downloading everything, you should have inside `data`:
 - `SynCAN` directory;
 - `9) Car-Hacking Dataset.zip` file;
 - `20) Survival Analysis Dataset for automobile IDS.zip` file.
-- `can-log` directory;
+- `can-ml` directory;
 - `CAN_MIRGU` directory;
 
 Once you have all datasets downloaded and all dependencies installed, you can run the `prepare_data.py` script to extract the attack data from the test sets.
 This should generate 5 files inside the `data` subdir:
 
-1. `syncan_attack_only.csv` 
-2. `car-hacking_attacks.csv`
-3. `survival-ids_attacks-all.csv`
-4. `can-log.csv`
-5. `can-mirgu.csv`
+1. `syncan-attack_only.csv` 
+2. `car_hacking-attack_only.csv`
+3. `survival_ids-attack_only.csv`
+4. `can_ml-attack_only.csv`
+5. `can_mirgu-attack_only.csv`
 
 (1) has all the anomalous data from SynCAN, and each attack type is labeled:
 
-0. continuous
-1. plateau
-2. playback
-3. suppress
-4. flooding
+1. continuous
+2. plateau
+3. playback
+4. suppress
+5. flooding
 
 (2) has all the anomalous data from Car-Hacking, and each attack is labeled:
 
-0. DoS
-1. fuzzy
-2. gear
-3. rpm
+1. DoS
+2. fuzzy
+3. gear
+4. rpm
 
 (3) has all the anomalous data from Survival-IDS, and each attack is labeled:
 
-0. flooding
-1. fuzzy
-2. malfunction
+1. flooding
+2. fuzzy
+3. malfunction
 
-(4) has all the anomalous data from can-log, and each attack is labeled:
+(4) has (a subset of) the anomalous data from can-ml, and each attack is labeled:
 
-0. DoS
-1. fuzzing
-2. gear
-3. interval
-4. rpm
-5. speed
-6. standstill
-7. systematic
+1. DoS
+2. fuzzing
+3. gear
+4. interval
+5. rpm
+6. speed
+7. standstill
+8. systematic
 
 (5) has all the anomalous data from CAN-MIRGU, and each attack is labeled:
 
-0. masquerade
-1. suspension
-2. real (break warning)
+1. flam
+2. injection every 0.02s
+3. injection every 0.001s
+4. masquerade
+5. suspension
 
 ### Training models
 
@@ -152,7 +155,7 @@ If all your files have the same prefix (e.g., you create `inference_latency-n=20
 The main results will be in (i) the test accuracies file that's exported by the `train_models.py` script, (ii) the size of the models in memory, and (iii) the average inference latency exported by the `calculate_avg_latencies.py` script.
 The `draw_plots.py` script was used to generate the plots shown in the paper based on those results.
 
-### Paper results
+### LOCoCAT Paper results
 
 The models, accuracies, and latencies measured for the paper can be found in the `out-pi0` subdir.
 These results were obtained using a [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/).
