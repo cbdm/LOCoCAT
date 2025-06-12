@@ -60,16 +60,16 @@ After downloading everything, you should have inside `data`:
 - `can-ml` directory;
 - `CAN_MIRGU` directory;
 
-Once you have all datasets downloaded and all dependencies installed, you can run the `prepare_data.py` script to extract the attack data from the test sets.
+Once you have all datasets downloaded and all dependencies installed, you can run `prepare_data.py --blocks` script to extract the attack data from the test sets and label their attack blocks.
 This should generate 5 files inside the `data` subdir:
 
-1. `syncan-attack_only.csv` 
-2. `car_hacking-attack_only.csv`
-3. `survival_ids-attack_only.csv`
-4. `can_ml-attack_only.csv`
-5. `can_mirgu-attack_only.csv`
+1. `syncan-blocks.csv` 
+2. `car_hacking-blocks.csv`
+3. `survival_ids-blocks.csv`
+4. `can_ml-blocks.csv`
+5. `can_mirgu-blocks.csv`
 
-(1) has all the anomalous data from SynCAN, and each attack type is labeled:
+(1) has all the anomalous data from SynCAN, and each attack type is labeled with type and block number:
 
 1. continuous
 2. plateau
@@ -77,20 +77,20 @@ This should generate 5 files inside the `data` subdir:
 4. suppress
 5. flooding
 
-(2) has all the anomalous data from Car-Hacking, and each attack is labeled:
+(2) has all the anomalous data from Car-Hacking, and each attack is labeled with type and block number:
 
 1. DoS
 2. fuzzy
 3. gear
 4. rpm
 
-(3) has all the anomalous data from Survival-IDS, and each attack is labeled:
+(3) has all the anomalous data from Survival-IDS, and each attack is labeled with type and block number:
 
 1. flooding
 2. fuzzy
 3. malfunction
 
-(4) has (a subset of) the anomalous data from can-ml, and each attack is labeled:
+(4) has (a subset of) the anomalous data from can-ml, and each attack is labeled with type and block number:
 
 1. DoS
 2. fuzzing
@@ -101,7 +101,7 @@ This should generate 5 files inside the `data` subdir:
 7. standstill
 8. systematic
 
-(5) has all the anomalous data from CAN-MIRGU, and each attack is labeled:
+(5) has all the anomalous data from CAN-MIRGU, and each attack is labeled with type and block number:
 
 1. flam
 2. injection every 0.02s
