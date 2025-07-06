@@ -342,7 +342,7 @@ def parse_canml_file(
     # converts the hexademical to decimal values
     for i in range(8):
         data[f"DATA{i}"] = (
-            data["data_field"].str.slice(i * 2, (i * 2) + 2).apply(hex_to_int)
+            data["data_field"].str.slice(i * 2, (i * 2) + 2).apply(hex_to_int) / 255
         )
     data = data.drop(columns=["data_field"])
 
@@ -490,7 +490,7 @@ def parse_can_mirgu_file(
     # converts the hexademical to decimal values
     for i in range(8):
         data[f"DATA{i}"] = (
-            data["Message Data"].str.slice(i * 2, (i * 2) + 2).apply(hex_to_int)
+            data["Message Data"].str.slice(i * 2, (i * 2) + 2).apply(hex_to_int) / 255
         )
     data = data.drop(columns=["Message Data"])
 
