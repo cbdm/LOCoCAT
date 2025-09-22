@@ -1,3 +1,5 @@
+Development in this repo has stopped; please check [github.com/b-c-lab/canbus](https://github.com/b-c-lab/canbus) for new updates.
+
 # LOCoCAT
 
 This repository contains the files needed to reproduce the experiments in the LOCoCAT (Low-Overhead Classification of CAN bus Attack Types) project.
